@@ -10,6 +10,12 @@ class CustomUser(AbstractUser):
     bio = models.CharField(max_length=200, null=True, blank=True)
     avatar = models.ImageField(upload_to='avatars', null=True, blank=True)
 
+    def save(self, *args, **kwargs):
+        if not self.avatar:
+            self.avatar = 'avatars/default.jpg'
+
+        super(CustomUser, self).save(*args, **kwargs)
+
     @property
     def token(self):
         """
