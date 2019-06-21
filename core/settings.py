@@ -142,6 +142,7 @@ MEDIA_URL = '/media/'
 # Django REST Framework settings
 
 REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'errors',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'users.authentication.JWTAuthentication',
     )
