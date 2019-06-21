@@ -1,9 +1,18 @@
-from django.urls import path
+from django.urls import include, path
 
-from users.api import LoginView, SignupView
+from users.api import (
+    LoginAPIView,
+    SignupAPIView,
+    UserRetrieveUpdateAPIView,
+)
 
+
+auth_urlpatterns = [
+    path('login/', LoginAPIView.as_view()),
+    path('signup/', SignupAPIView.as_view()),
+]
 
 urlpatterns = [
-    path('login/', LoginView.as_view()),
-    path('signup/', SignupView.as_view()),
+    path('auth/', include(auth_urlpatterns)),
+    path('<str:username>/', UserRetrieveUpdateAPIView.as_view()),
 ]
