@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from users.serializers import LoginSerializer, SignupSerializer
 
 
-class LoginView(APIView):
+class LoginAPIView(APIView):
     permission_classes = (AllowAny,)
     serializer_class = LoginSerializer
 
@@ -17,7 +17,7 @@ class LoginView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class SignupView(APIView):
+class SignupAPIView(APIView):
     permission_classes = (AllowAny,)
     serializer_class = SignupSerializer
 
