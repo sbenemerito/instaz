@@ -32,16 +32,23 @@ ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 
 # Application definition
 
-INSTALLED_APPS = [
+THIRD_PARTY_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+]
+
+CUSTOM_APPS = [
     'users',
     'instagram',
 ]
+
+INSTALLED_APPS = THIRD_PARTY_APPS + CUSTOM_APPS
+
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -130,3 +137,13 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+
+# Django REST Framework settings
+
+REST_FRAMEWORK = {
+    'NON_FIELD_ERRORS_KEY': 'errors',
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'users.authentication.JWTAuthentication',
+    )
+}
