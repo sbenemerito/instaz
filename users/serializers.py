@@ -93,6 +93,27 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        # List all of the fields that could possibly be included in a request
-        # or response, including fields specified explicitly above.
-        fields = '__all__'
+        exclude = ('groups', 'user_permissions', 'is_superuser', 'is_staff',
+                   'first_name', 'last_name',)
+
+    def update(self, instance, validated_data):
+        """
+        Performs an update on a User.
+        """
+
+        # Passwords should not be handled with `setattr`, unlike other fields.
+        # We should use Django's set_password() method for encryption
+        password = validated_data.pop('password', None)
+
+        if password is not None:
+            instance.set_password(password)
+
+        # Set all other keys, except password, from `validated_data` to
+        # the current `User` instance
+        for (key, value) in validated_data.items():
+            # For the keys remaining in `validated_data`, we will set them on
+            # the current `User` instance one at a time.
+            setattr(instance, key, value)
+
+        instance.save()
+        return instance
