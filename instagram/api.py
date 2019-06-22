@@ -17,3 +17,13 @@ class PostViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly,)
     queryset = Post.objects.filter(is_active=True)
     serializer_class = PostSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        hashtag = self.request.query_params.get('hashtag', None)
+        if hashtag:
+            pattern = r'(?:\s|^)#[({0})\-\.\_]+(?:\s|$)'.format(hashtag)
+            queryset = queryset.filter(caption__iregex=pattern)
+
+        return queryset
