@@ -27,8 +27,12 @@ class Post(models.Model):
         return super(Post, self).save(*args, **kwargs)
 
     @property
+    def comments(self):
+        return self.comment_set.all().order_by('date_created')
+
+    @property
     def likes(self):
-        return len(self.like_set.filter(is_active=True))
+        return self.like_set.filter(is_active=True)
 
     def is_liked_by(self, user=None):
         if user and hasattr(user, 'id'):

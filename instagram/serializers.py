@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from instagram.models import Post, Tag
+from instagram.models import Comment, Post, Tag
 from users.serializers import UserSerializer
 
 
@@ -20,6 +20,18 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    """
+    Handles serialization and deserialization of Comment instances.
+    """
+
+    author = UserSerializer()
+
+    class Meta:
+        model = Comment
+        fields = '__all__'
+
+
 class PostSerializer(serializers.ModelSerializer):
     """
     Handles serialization and deserialization of Post instances.
@@ -27,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     tags = serializers.StringRelatedField(many=True)
     author = UserSerializer()
+    comments = CommentSerializer(many=True)
     likes = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
 
@@ -35,7 +48,7 @@ class PostSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_likes(self, obj):
-        return obj.likes
+        return obj.likes.count()
 
     def get_is_liked(self, obj):
         if 'request' in self.context:
