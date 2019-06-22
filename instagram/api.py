@@ -15,5 +15,5 @@ class TagListCreateAPIView(ListCreateAPIView):
 
 class PostViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly,)
-    queryset = Post.objects.all()
+    queryset = Post.objects.filter(is_active=True)
     serializer_class = PostSerializer

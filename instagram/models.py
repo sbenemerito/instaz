@@ -24,7 +24,7 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_updated = timezone.now()
-        return super(Post, self).save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
 
     @property
     def comments(self):
