@@ -1,10 +1,9 @@
 from rest_framework import permissions
 
 
-class IsSelfOrReadOnly(permissions.BasePermission):
+class IsAuthorOrReadOnly(permissions.BasePermission):
     """
-    Object-level permission for Users to only allow themselves to edit their
-    own User instance.
+    Object-level permission for Posts to only allow its author to modify it
     """
 
     def has_object_permission(self, request, view, obj):
@@ -13,5 +12,5 @@ class IsSelfOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
 
-        # Instance must be the request.user himself/herself.
-        return obj == request.user
+        # Instance author must be the request.user himself/herself.
+        return obj.author == request.user

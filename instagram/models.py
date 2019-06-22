@@ -9,6 +9,9 @@ class Tag(models.Model):
     description = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.description
+
 
 class Post(models.Model):
     image = models.ImageField(upload_to='uploads')
@@ -21,7 +24,21 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_updated = timezone.now()
-        return super(Post, self).save(*args, **kwargs)
+        super(Post, self).save(*args, **kwargs)
+
+    @property
+    def comments(self):
+        return self.comment_set.all().order_by('date_created')
+
+    @property
+    def likes(self):
+        return self.like_set.filter(is_active=True)
+
+    def is_liked_by(self, user=None):
+        if user and hasattr(user, 'id'):
+            return self.like_set.filter(user=user.id).exists()
+
+        return False
 
 
 class Comment(models.Model):
