@@ -3,6 +3,7 @@ from rest_framework.generics import ListCreateAPIView
 from rest_framework.viewsets import ModelViewSet
 
 from instagram.models import Post, Tag
+from instagram.permissions import IsAuthorOrReadOnly
 from instagram.serializers import PostSerializer, TagSerializer
 
 
@@ -13,6 +14,6 @@ class TagListCreateAPIView(ListCreateAPIView):
 
 
 class PostViewSet(ModelViewSet):
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly,)
     queryset = Post.objects.all()
     serializer_class = PostSerializer
