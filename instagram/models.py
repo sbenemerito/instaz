@@ -36,7 +36,7 @@ class Post(models.Model):
 
     def is_liked_by(self, user=None):
         if user and hasattr(user, 'id'):
-            return self.like_set.filter(user=user.id).exists()
+            return self.like_set.filter(is_active=True, user=user.id).exists()
 
         return False
 

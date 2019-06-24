@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from instagram.models import Comment, Post, Tag
+from instagram.models import (
+    Comment, Like, Post, Tag,
+)
 from users.serializers import UserSerializer
 
 
@@ -81,3 +83,13 @@ class PostSerializer(serializers.ModelSerializer):
             return obj.is_liked_by(self.context['request'].user)
 
         return False
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    """
+    Handles serialization and deserialization of Like instances.
+    """
+
+    class Meta:
+        model = Like
+        fields = '__all__'

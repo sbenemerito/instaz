@@ -49,9 +49,7 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
             obj = User.objects.get(username=username)
         except User.DoesNotExist:
             return Response({
-                'errors': [
-                    'No user with the username {} exists'.format(username)
-                ]
+                'detail': 'No user with the username {} exists'.format(username)
             }, status=status.HTTP_404_NOT_FOUND)
 
         self.check_object_permissions(self.request, obj)
