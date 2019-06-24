@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import (
     IsAuthenticated, IsAuthenticatedOrReadOnly,
@@ -37,6 +38,25 @@ class PostViewSet(ModelViewSet):
             queryset = queryset.filter(caption__iregex=pattern)
 
         return queryset
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        obj, created = Like.objects.get_or_create(
+            user=request.user,
+            post=post,
+        )
+
+        # If not created, just toggle `is_active` field
+        if not created:
+            obj.is_active = not obj.is_active
+            obj.save()
+
+        liked_or_unliked = 'liked' if obj.is_active else 'unliked'
+
+        return Response({
+            'detail': 'Successfully {} post!'.format(liked_or_unliked)
+        }, status=status.HTTP_200_OK)
 
 
 class CommentViewSet(ModelViewSet):
