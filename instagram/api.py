@@ -1,13 +1,19 @@
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from django.shortcuts import get_object_or_404
+from rest_framework import status
 from rest_framework.generics import ListCreateAPIView
+from rest_framework.permissions import (
+    IsAuthenticated, IsAuthenticatedOrReadOnly,
+)
+from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
 from instagram.models import (
-    Comment, Post, Tag,
+    Comment, Like, Post, Tag,
 )
 from instagram.permissions import IsAuthorOrReadOnly
 from instagram.serializers import (
-    CommentSerializer, PostSerializer, TagSerializer,
+    CommentSerializer, LikeSerializer, PostSerializer, TagSerializer,
 )
 
 
@@ -46,3 +52,31 @@ class CommentViewSet(ModelViewSet):
             queryset = queryset.filter(post=post)
 
         return queryset
+
+
+class LikeAPIView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        if not post_id:
+            return Response({
+                'detail': 'Post was not provided!'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        post = get_object_or_404(Post, id=post_id)
+
+        obj, created = Like.objects.get_or_create(
+            user=request.user,
+            post=post,
+        )
+
+        if created:
+            return Response(LikeSerializer(instance=obj).data,
+                            status=status.HTTP_201_CREATED)
+
+        obj.is_active = not obj.is_active
+        obj.save()
+
+        return Response(LikeSerializer(instance=obj).data,
+                        status=status.HTTP_200_OK)
