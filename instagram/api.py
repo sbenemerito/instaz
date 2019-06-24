@@ -2,9 +2,13 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.viewsets import ModelViewSet
 
-from instagram.models import Post, Tag
+from instagram.models import (
+    Comment, Post, Tag,
+)
 from instagram.permissions import IsAuthorOrReadOnly
-from instagram.serializers import PostSerializer, TagSerializer
+from instagram.serializers import (
+    CommentSerializer, PostSerializer, TagSerializer,
+)
 
 
 class TagListCreateAPIView(ListCreateAPIView):
@@ -25,5 +29,20 @@ class PostViewSet(ModelViewSet):
         if hashtag:
             pattern = r'(?:\s|^)#[({0})\-\.\_]+(?:\s|$)'.format(hashtag)
             queryset = queryset.filter(caption__iregex=pattern)
+
+        return queryset
+
+
+class CommentViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly,)
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        post = self.request.query_params.get('post', None)
+        if post:
+            queryset = queryset.filter(post=post)
 
         return queryset

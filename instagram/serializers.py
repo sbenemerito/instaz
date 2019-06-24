@@ -25,11 +25,23 @@ class CommentSerializer(serializers.ModelSerializer):
     Handles serialization and deserialization of Comment instances.
     """
 
-    author = UserSerializer()
+    author = UserSerializer(read_only=True)
 
     class Meta:
         model = Comment
         fields = '__all__'
+
+    def create(self, validated_data):
+        author = None
+        if 'request' in self.context:
+            author = self.context['request'].user
+
+        # Use request.user as author
+        validated_data.update({
+            'author': author,
+        })
+
+        return Comment.objects.create(**validated_data)
 
 
 class PostSerializer(serializers.ModelSerializer):
