@@ -51,12 +51,25 @@ def create_user(create_posts=False):
     return user
 
 
+def interact_with_posts(user, posts):
+    for post in posts:
+        # Just a random way to create variance
+        if post.id % user.id == 0:
+            Like.objects.create(user=user, post=post)
+            Comment.objects.create(
+                message=fake.sentence(),
+                post=post,
+                author=user
+            )
+
+
 class Command(BaseCommand):
     help = 'Creates initial data for the app, using Faker'
 
     def handle(self, *args, **options):
         # Create 5 users, with each having 3 posts
         fake_users = [create_user(create_posts=True) for _ in range(5)]
+        posts = Post.objects.all()
 
-        # Each user should have at least 2 comments (random post)
-        # Each user should like 5 random posts
+        for user in fake_users:
+            interact_with_posts(user, posts)
