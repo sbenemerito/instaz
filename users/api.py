@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -45,12 +46,6 @@ class UserRetrieveUpdateAPIView(RetrieveUpdateAPIView):
     def get_object(self):
         # Get the specific User through the username URL kwarg
         username = self.kwargs.get('username', None)
-        try:
-            obj = User.objects.get(username=username)
-        except User.DoesNotExist:
-            return Response({
-                'detail': 'No user with the username {} exists'.format(username)
-            }, status=status.HTTP_404_NOT_FOUND)
-
+        obj = get_object_or_404(User, username=username)
         self.check_object_permissions(self.request, obj)
         return obj

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from instagram.models import (
+from instaz.models import (
     Comment, Like, Post, Tag,
 )
 from users.serializers import UserSerializer

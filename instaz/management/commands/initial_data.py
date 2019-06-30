@@ -4,7 +4,7 @@ from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand, CommandError
 from faker import Faker
 
-from instagram.models import (
+from instaz.models import (
     Comment, Like, Post,
 )
 

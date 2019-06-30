@@ -1,7 +1,7 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 
-from instagram.api import (
+from instaz.api import (
     CommentViewSet, LikeAPIView, PostViewSet, TagListCreateAPIView,
 )
 
