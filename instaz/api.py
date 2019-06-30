@@ -9,11 +9,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from instagram.models import (
+from instaz.models import (
     Comment, Like, Post, Tag,
 )
-from instagram.permissions import IsAuthorOrReadOnly
-from instagram.serializers import (
+from instaz.permissions import IsAuthorOrReadOnly
+from instaz.serializers import (
     CommentSerializer, LikeSerializer, PostSerializer, TagSerializer,
 )
 

@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateTimeField(default=django.utils.timezone.now)),
                 ('date_updated', models.DateTimeField(default=django.utils.timezone.now)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('tags', models.ManyToManyField(blank=True, to='instagram.Tag')),
+                ('tags', models.ManyToManyField(blank=True, to='instaz.Tag')),
             ],
         ),
         migrations.CreateModel(
@@ -43,7 +43,7 @@ class Migration(migrations.Migration):
                 ('is_active', models.BooleanField(default=True)),
                 ('date_created', models.DateTimeField(default=django.utils.timezone.now)),
                 ('date_updated', models.DateTimeField(default=django.utils.timezone.now)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instagram.Post')),
+                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instaz.Post')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('date_created', models.DateTimeField(default=django.utils.timezone.now)),
                 ('date_updated', models.DateTimeField(default=django.utils.timezone.now)),
                 ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instagram.Post')),
+                ('post', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='instaz.Post')),
             ],
         ),
     ]

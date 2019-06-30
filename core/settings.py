@@ -45,7 +45,7 @@ THIRD_PARTY_APPS = [
 
 CUSTOM_APPS = [
     'users',
-    'instagram',
+    'instaz',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + CUSTOM_APPS
