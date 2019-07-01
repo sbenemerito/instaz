@@ -1,3 +1,4 @@
+from django.utils.timesince import timesince
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
@@ -27,6 +28,7 @@ class CommentSerializer(serializers.ModelSerializer):
     """
 
     author = serializers.SerializerMethodField()
+    timesince_posted = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
@@ -55,6 +57,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
         return None
 
+    def get_timesince_posted(self, obj):
+        return timesince(obj.date_created)
+
 
 class PostSerializer(serializers.ModelSerializer):
     """
@@ -66,6 +71,7 @@ class PostSerializer(serializers.ModelSerializer):
     author = serializers.SerializerMethodField()
     likes = serializers.SerializerMethodField()
     is_liked = serializers.SerializerMethodField()
+    timesince_posted = serializers.SerializerMethodField()
 
     class Meta:
         model = Post
@@ -104,6 +110,9 @@ class PostSerializer(serializers.ModelSerializer):
             }
 
         return None
+
+    def get_timesince_posted(self, obj):
+        return timesince(obj.date_created)
 
 
 class LikeSerializer(serializers.ModelSerializer):
