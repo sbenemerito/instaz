@@ -1,3 +1,5 @@
+import random
+
 import requests
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
@@ -13,7 +15,17 @@ User = get_user_model()
 
 
 def download_image():
-    response = requests .get(fake.image_url(width=500, height=500))
+    # Use random sizes for each image
+    sizes = [
+        {'width': 500, 'height': 500},
+        {'width': 600, 'height': 600},
+        {'width': 700, 'height': 700},
+        {'width': 420, 'height': 600},
+        {'width': 400, 'height': 500},
+    ]
+    image_size = random.choice(sizes)
+
+    response = requests .get(fake.image_url(**image_size))
     if response.status_code == requests.codes.ok:
         return response.content
 

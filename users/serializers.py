@@ -1,5 +1,8 @@
 from django.contrib.auth import authenticate, get_user_model
+from django.utils import timezone
 from rest_framework import serializers
+
+from instaz.serializers import PostSerializer
 
 User = get_user_model()
 
@@ -43,6 +46,9 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(
                 'User has been deactivated'
             )
+
+        user.last_login = timezone.now()
+        user.save(update_fields=['last_login'])
 
         return {
             'username': user.username,
@@ -91,6 +97,8 @@ class UserSerializer(serializers.ModelSerializer):
         write_only=True
     )
 
+    posts = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         exclude = ('groups', 'user_permissions', 'is_superuser', 'is_staff',
@@ -117,3 +125,12 @@ class UserSerializer(serializers.ModelSerializer):
 
         instance.save()
         return instance
+
+    def get_posts(self, obj):
+        request = self.context.get('request')
+        user_posts = obj.post_set.filter(is_active=True).order_by('-date_created')
+
+        if user_posts.exists() and request is not None:
+            return PostSerializer(user_posts, many=True, context={'request': request}).data
+
+        return None

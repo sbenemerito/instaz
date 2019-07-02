@@ -26,7 +26,7 @@ class TagListCreateAPIView(ListCreateAPIView):
 
 class PostViewSet(ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly,)
-    queryset = Post.objects.filter(is_active=True)
+    queryset = Post.objects.filter(is_active=True).order_by('-date_created')
     serializer_class = PostSerializer
 
     def get_queryset(self):
