@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 class Header extends React.Component {
@@ -7,8 +6,8 @@ class Header extends React.Component {
     const authMenu = (
       <div className="ui large borderless menu">
         <Link className="header item" to="/">Instaz</Link>
-        <Link className="right floated item" to="/auth/login">Login</Link>
-        <Link className="item" to="/auth/signup">Signup</Link>
+        <Link className="right floated item" to="/login">Login</Link>
+        <Link className="item" to="/signup">Signup</Link>
       </div>
     );
 
@@ -23,7 +22,7 @@ class Header extends React.Component {
         <div className="computer only row">
           <div className="column">
             {
-              this.user ? userMenu : authMenu
+              this.props.currentUser ? userMenu : authMenu
             }
           </div>
         </div>
@@ -31,7 +30,7 @@ class Header extends React.Component {
         <div className="tablet mobile only row">
           <div className="column">
             <div className="ui large borderless menu">
-              <Link className="header item">Instaz</Link>
+              <Link className="header item" to="/">Instaz</Link>
               <a id="mobile_item" className="item right floated"><i className="bars icon"></i></a>
             </div>
           </div>
@@ -41,11 +40,4 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { user: state.user };
-};
-
-export default connect(
-  mapStateToProps,
-  {}
-)(Header);
+export default Header;

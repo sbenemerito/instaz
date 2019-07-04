@@ -1,25 +1,33 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 import Header from './Header';
-import PostList from './PostList';
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
 
 class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <Header/>
-        <div className="ui container center aligned App">
-          <div className="ui two column stackable grid">
-            <PostList />
-            <div className="six wide column computer only">
-              <h1>Side Menu</h1>
-            </div>
-          </div>
-        </div>
+      <div className="App">
+        <Header currentUser={this.currentUser} />
+
+        <Switch>
+          <Route path="/" exact component={() => <Home currentUser={this.currentUser}/>} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => {
+  return { currentUser: state.currentUser }
+};
+
+export default connect(
+  mapStateToProps,
+  {}
+)(App);
