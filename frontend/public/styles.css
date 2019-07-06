@@ -1,3 +1,7 @@
 .Header {
   margin-bottom: 3rem !important;
 }
+
+.error {
+  color: red !important;
+}
