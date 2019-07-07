@@ -14,6 +14,7 @@ class Header extends React.Component {
     const userMenu = (
       <div className="ui large borderless menu">
         <Link className="header item" to="/">Instaz</Link>
+        <a className="clickable right floated item" onClick={this.props.logoutUser}>Logout</a>
       </div>
     );
 

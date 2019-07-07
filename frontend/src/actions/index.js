@@ -10,7 +10,7 @@ const fetchPosts = () => async dispatch => {
 };
 
 const loginUser = userData => async dispatch => {
-  const response = await instazApi.post('/users/auth/login/', {...userData}).then(
+  await instazApi.post('/users/auth/login/', {...userData}).then(
     response => {
       dispatch({
         type: 'LOGIN_USER',
@@ -27,7 +27,7 @@ const loginUser = userData => async dispatch => {
 };
 
 const registerUser = userData => async dispatch => {
-  const response = await instazApi.post('/users/auth/signup/', { ...userData }).then(
+  await instazApi.post('/users/auth/signup/', { ...userData }).then(
     response => {
       dispatch({
         type: 'NEW_USER',
@@ -43,4 +43,10 @@ const registerUser = userData => async dispatch => {
   );
 };
 
-export { fetchPosts, loginUser, registerUser };
+const logoutUser = () => {
+  return {
+    type: 'LOGOUT_USER'
+  };
+};
+
+export { fetchPosts, loginUser, registerUser, logoutUser };
