@@ -25,8 +25,16 @@ const errorsReducer = (errorMessages=[], action) => {
     if (typeof action.payload === 'string') {
       errorMessages = [action.payload];
     } else {
-      if (action.payload.errors) errorMessages = action.payload.errors;
-      else if (action.payload.detail) errorMessages = [action.payload.detail];
+      let tempErrors = [];
+      Object.keys(action.payload).forEach(errorKey => {
+        if (typeof action.payload[errorKey] === 'string') {
+          tempErrors.push(action.payload[errorKey]);
+        } else {
+          tempErrors = tempErrors.concat(action.payload[errorKey] || []);
+        }
+      });
+
+      errorMessages = tempErrors;
     }
   }
 
