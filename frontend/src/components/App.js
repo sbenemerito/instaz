@@ -1,21 +1,35 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import PostList from './PostList';
+import { Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import Header from './Header';
+import Home from './Home';
+import Login from './Login';
+import Signup from './Signup';
+import { logoutUser } from '../actions';
 
 class App extends React.Component {
+
   render() {
     return (
-      <div className="ui container center aligned App">
-        <h1>Instaz</h1>
-        <div className="ui two column stackable grid">
-          <PostList />
-          <div className="six wide column computer only">
-            <h1>Side Menu</h1>
-          </div>
-        </div>
+      <div className="App">
+        <Header currentUser={this.props.currentUser} logoutUser={this.props.logoutUser} />
+
+        <Switch>
+          <Route path="/" exact component={() => <Home currentUser={this.props.currentUser}/>} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Signup} />
+        </Switch>
       </div>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => {
+  return { currentUser: state.currentUser }
+};
+
+export default connect(
+  mapStateToProps,
+  { logoutUser }
+)(App);

@@ -7,9 +7,10 @@ import thunk from 'redux-thunk';
 
 import App from './components/App';
 import reducers from './reducers';
+import { localStorageMiddleware } from './middlewares';
 import * as serviceWorker from './serviceWorker';
 
-const store = createStore(reducers, applyMiddleware(thunk));
+const store = createStore(reducers, applyMiddleware(thunk, localStorageMiddleware));
 
 ReactDOM.render(
   <Router>
