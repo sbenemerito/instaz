@@ -26,4 +26,21 @@ const loginUser = userData => async dispatch => {
   );
 };
 
-export { fetchPosts, loginUser };
+const registerUser = userData => async dispatch => {
+  const response = await instazApi.post('/users/auth/signup/', { ...userData }).then(
+    response => {
+      dispatch({
+        type: 'NEW_USER',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'NEW_USER_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
+export { fetchPosts, loginUser, registerUser };
