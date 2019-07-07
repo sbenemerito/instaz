@@ -1,7 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+
+import { registerUser } from '../actions';
+import ErrorMessages from './ErrorMessages';
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()
@@ -26,6 +30,7 @@ class Signup extends React.Component {
               <div className="sub header">Already have an account? Use it to <Link to="/login">login</Link>!</div>
             </div>
           </h2>
+          <ErrorMessages errors={this.props.errorMessages} />
           <Formik
             initialValues={{
               username: '',
@@ -34,12 +39,14 @@ class Signup extends React.Component {
               passwordConfirmation: '',
             }}
             validationSchema={SignupSchema}
-            onSubmit={values => {
-              console.log(values);
+            onSubmit={(values, { setSubmitting }) => {
+              this.props.registerUser(values).then(response => {
+                setSubmitting(false);
+              });
             }}
           >
-            {({ values, errors, touched, handleChange }) => (
-              <Form className="ui form">
+            {({ values, errors, touched, isSubmitting, handleChange }) => (
+              <Form className={isSubmitting ? "ui loading form" : "ui form"}>
                 <div className="required field">
                   <label>Username</label>
                   <div className="ui left icon input">
@@ -76,10 +83,21 @@ class Signup extends React.Component {
               </Form>
             )}
           </Formik>
+          {
+            this.props.currentUser ? <Redirect to="/" /> : null
+          }
         </div>
       </div>
     );
   }
 }
 
-export default Signup;
+const mapStateToProps = state => {
+  const { errorMessages, currentUser } = state;
+  return { errorMessages, currentUser };
+};
+
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(Signup);
