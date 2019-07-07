@@ -16,7 +16,7 @@ class App extends React.Component {
         <Header currentUser={this.props.currentUser} logoutUser={this.props.logoutUser} />
 
         <Switch>
-          <Route path="/" exact component={() => <Home currentUser={this.currentUser}/>} />
+          <Route path="/" exact component={() => <Home currentUser={this.props.currentUser}/>} />
           <Route path="/login" exact component={Login} />
           <Route path="/signup" exact component={Signup} />
         </Switch>

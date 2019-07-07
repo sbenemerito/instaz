@@ -8,7 +8,7 @@ class Home extends React.Component {
       <div className="Home">
         <div className="ui container center aligned">
           <div className="ui two column stackable grid">
-            <PostList />
+            <PostList currentUser={this.props.currentUser} />
             <div className="six wide column computer only">
               <h1>Side Menu</h1>
             </div>

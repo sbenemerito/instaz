@@ -15,7 +15,7 @@ class PostList extends React.Component {
         {
           this.props.posts.map(post => {
             return(
-              <PostListItem key={post.id} post={post} />
+              <PostListItem key={post.id} post={post} showActions={this.props.currentUser ? true : false} />
             )
           })
         }

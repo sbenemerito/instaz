@@ -5,3 +5,7 @@
 .error {
   color: red !important;
 }
+
+.action-icons > i {
+  margin: 0 10px;
+}
