@@ -23,7 +23,7 @@ class PostListItem extends React.Component {
             <div className="content action-icons">
               <i
                 onClick={() => this.props.likePost(post.id)}
-                className="clickable big heart outline like icon">
+                className={"clickable big heart outline like icon" + (post.is_liked ? " red" : "")}>
               </i>
               <i className="clickable big comment outline link icon"></i>
               <i className="clickable big share link icon"></i>
