@@ -21,7 +21,10 @@ class PostListItem extends React.Component {
           // Only show action icons for authenticated user
           this.props.showActions ? (
             <div className="content action-icons">
-              <i className="clickable big heart outline like icon"></i>
+              <i
+                onClick={() => this.props.likePost(post.id)}
+                className="clickable big heart outline like icon">
+              </i>
               <i className="clickable big comment outline link icon"></i>
               <i className="clickable big share link icon"></i>
             </div>
