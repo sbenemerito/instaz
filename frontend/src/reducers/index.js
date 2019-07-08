@@ -5,6 +5,17 @@ const postsReducer = (posts=[], action) => {
     return action.payload.data;
   }
 
+  if (action.type === 'TOGGLE_POST_LIKE') {
+    return posts.map(post => {
+      if (post.id === action.payload.postId) {
+        post.is_liked = !post.is_liked;
+        post.likes = post.is_liked ? post.likes + 1 : post.likes - 1;
+      }
+
+      return post;
+    });
+  }
+
   return posts;
 };
 
