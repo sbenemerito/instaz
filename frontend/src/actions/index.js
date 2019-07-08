@@ -49,4 +49,21 @@ const logoutUser = () => {
   };
 };
 
-export { fetchPosts, loginUser, registerUser, logoutUser };
+const likePost = (postId) => async dispatch => {
+  await instazApi.post(`/posts/${postId}/like/`).then(
+    response => {
+      dispatch({
+        type: 'TOGGLE_POST_LIKE',
+        payload: { postId }
+      });
+    },
+    error => {
+      dispatch({
+        type: 'TOGGLE_POST_LIKE_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
+export { fetchPosts, loginUser, registerUser, logoutUser, likePost };
