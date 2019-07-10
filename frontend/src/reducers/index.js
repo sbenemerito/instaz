@@ -57,6 +57,19 @@ const viewPostReducer = (currentPost=null, action) => {
     return action.payload;
   }
 
+  if (action.type === 'TOGGLE_POST_LIKE') {
+    if (currentPost !== null && currentPost.id === action.payload.postId) {
+      // React does a shallowEqual on state changes to determine if the component
+      // should be re-rendered. By cloning the object, we create a different reference
+      let currentPostCopy = Object.assign({}, currentPost);
+      currentPostCopy.is_liked = !currentPostCopy.is_liked;
+      currentPostCopy.likes = currentPostCopy.is_liked
+                              ? currentPostCopy.likes + 1
+                              : currentPostCopy.likes - 1;
+      currentPost = currentPostCopy;
+    }
+  }
+
   return currentPost;
 };
 
