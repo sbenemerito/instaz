@@ -11,10 +11,13 @@ class PostDetail extends React.Component {
 
   render() {
     const loadingDOM = (
-      <div>
-        <h1>Loading!</h1>
+      <div className="ui segment loading-div">
+        <div className="ui active inverted dimmer">
+          <div className="ui massive text loader">Loading</div>
+        </div>
       </div>
     );
+
     const postDOM = post => (
       <div className="ui two column stackable grid">
         <div className="left aligned nine wide computer sixteen wide mobile column">

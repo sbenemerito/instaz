@@ -18,3 +18,7 @@ body {
 .action-icons > i {
   margin: 0 10px;
 }
+
+.loading-div {
+  padding: 100px 0px !important
+}
