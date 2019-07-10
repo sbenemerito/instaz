@@ -66,4 +66,21 @@ const likePost = (postId) => async dispatch => {
   );
 };
 
-export { fetchPosts, loginUser, registerUser, logoutUser, likePost };
+const viewPost = (postId) => async dispatch => {
+  await instazApi.get(`/posts/${postId}/`).then(
+    response => {
+      dispatch({
+        type: 'VIEW_POST',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'VIEW_POST_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
+export { fetchPosts, likePost, loginUser, registerUser, logoutUser, viewPost };

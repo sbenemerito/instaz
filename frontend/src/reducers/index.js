@@ -52,8 +52,17 @@ const errorsReducer = (errorMessages=[], action) => {
   return errorMessages;
 };
 
+const viewPostReducer = (currentPost=null, action) => {
+  if (action.type === 'VIEW_POST') {
+    return action.payload;
+  }
+
+  return currentPost;
+};
+
 export default combineReducers({
   posts: postsReducer,
+  currentPost: viewPostReducer,
   currentUser: authReducer,
   errorMessages: errorsReducer,
 });
