@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 class PostListItem extends React.Component {
   render() {
-    const post = this.props.post;
+    const { post, isPreview } = this.props;
 
     return(
       <div className="ui fluid card">
@@ -36,8 +36,8 @@ class PostListItem extends React.Component {
           <div className="ui divider"></div>
           {
             post.comments.map((comment, index) => {
-              // Only show up to 3 comments
-              return index > 2 ? null : (
+              // Only show up to 3 comments for posts in list
+              return isPreview && index > 2 ? null : (
                 <p key={comment.id}>
                   <Link className="ui left floated small header" to={`/u/${comment.author.username}`}>
                     {comment.author.username}
@@ -48,7 +48,9 @@ class PostListItem extends React.Component {
             })
           }
           {
-            post.comments.length > 3 ? <Link className="ui left floated sub header" to={`/p/${post.id}`}>View all comments</Link> : null
+            isPreview && post.comments.length > 3
+            ? <Link className="ui left floated sub header" to={`/p/${post.id}`}>View all comments</Link>
+            : null
           }
         </div>
         {
