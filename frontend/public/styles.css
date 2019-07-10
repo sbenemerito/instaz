@@ -1,3 +1,12 @@
+body {
+  background-color: #fafafa;
+}
+
+.Home,
+.PostDetail {
+  padding-bottom: 35px;
+}
+
 .Header {
   margin-bottom: 3rem !important;
 }
@@ -8,4 +17,8 @@
 
 .action-icons > i {
   margin: 0 10px;
+}
+
+.loading-div {
+  padding: 100px 0px !important
 }

@@ -19,7 +19,8 @@ class PostList extends React.Component {
                 key={post.id}
                 post={post}
                 likePost={this.props.likePost}
-                showActions={this.props.currentUser ? true : false} />
+                showActions={this.props.currentUser ? true : false}
+                isPreview={true} />
             )
           })
         }
