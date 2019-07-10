@@ -1,3 +1,12 @@
+body {
+  background-color: #fafafa;
+}
+
+.Home,
+.PostDetail {
+  padding-bottom: 35px;
+}
+
 .Header {
   margin-bottom: 3rem !important;
 }
