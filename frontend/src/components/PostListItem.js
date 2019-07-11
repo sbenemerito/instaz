@@ -58,7 +58,7 @@ class PostListItem extends React.Component {
         {
           // Only show comment form for authenticated user
           this.props.showActions ? (
-            <CommentForm post={post} />
+            <CommentForm post={post} addComment={this.props.addComment} />
           ) : null
         }
       </div>

@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Formik, Form, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 
 class CommentForm extends React.Component {
   render() {
@@ -9,16 +8,20 @@ class CommentForm extends React.Component {
         <Formik
           initialValues={{
             message: '',
+            post: this.props.post.id,
           }}
-          onSubmit={(values, { setSubmitting }) => {
-            console.log(values, 'values');
+          onSubmit={(values, { resetForm }) => {
+            this.props.addComment(values).then(response => {
+              resetForm();
+              values.message = ''; // clear form
+            });
           }}
         >
           {({ values, errors, touched, isSubmitting, handleChange }) => (
             <Form className={isSubmitting ? "ui loading form" : "ui form"}>
               <div className="ui large transparent left icon input">
                 <i className="comment outline icon"></i>
-                <input type="text" name="message" maxLength="400" placeholder="Add Comment..." />
+                <input type="text" name="message" maxLength="400" placeholder="Add Comment..." onChange={handleChange} value={values.message} />
               </div>
             </Form>
           )}
