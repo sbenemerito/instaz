@@ -6,6 +6,11 @@ import CommentForm from './CommentForm';
 class PostListItem extends React.Component {
   render() {
     const { post, isPreview } = this.props;
+    const captionPreviewElem = ({ id, caption }) => (
+      <span>
+        {caption + '...'} <Link className="ui sub header" to={`/p/${id}`}>View full caption</Link>
+      </span>
+    );
 
     return(
       <div className="ui fluid card">
@@ -34,7 +39,12 @@ class PostListItem extends React.Component {
         }
         <div className="relaxed content">
           <p className="ui sub header">{post.likes} likes</p>
-          <p className="post-description"><Link className="ui left floated small header" to={`/u/${post.author.username}`}>{post.author.username}</Link> {post.caption}</p>
+          <p className="post-description">
+            <Link className="ui left floated small header author" to={`/u/${post.author.username}`}>
+              {post.author.username}
+            </Link>
+            {post.caption && post.caption.length > 120 && isPreview ? captionPreviewElem(post) : post.caption}
+          </p>
           <div className="ui divider"></div>
           {
             post.comments.map((comment, index) => {

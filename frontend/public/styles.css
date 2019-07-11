@@ -26,3 +26,7 @@ body {
 .post-description {
   display: inline-block;
 }
+
+.author {
+  margin-bottom: 0 !important;
+}
