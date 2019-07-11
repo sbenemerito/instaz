@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import CommentForm from './CommentForm';
+
 class PostListItem extends React.Component {
   render() {
     const { post, isPreview } = this.props;
@@ -56,12 +58,7 @@ class PostListItem extends React.Component {
         {
           // Only show comment form for authenticated user
           this.props.showActions ? (
-            <div className="extra content">
-              <div className="ui large transparent left icon input">
-                <i className="comment outline icon"></i>
-                <input type="text" placeholder="Add Comment..." />
-              </div>
-            </div>
+            <CommentForm post={post} />
           ) : null
         }
       </div>
