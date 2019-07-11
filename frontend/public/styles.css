@@ -22,3 +22,7 @@ body {
 .loading-div {
   padding: 100px 0px !important
 }
+
+.post-description {
+  display: inline-block;
+}

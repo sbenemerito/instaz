@@ -34,7 +34,7 @@ class PostListItem extends React.Component {
         }
         <div className="relaxed content">
           <p className="ui sub header">{post.likes} likes</p>
-          <p><Link className="ui left floated small header" to={`/u/${post.author.username}`}>{post.author.username}</Link> {post.caption}</p>
+          <p className="post-description"><Link className="ui left floated small header" to={`/u/${post.author.username}`}>{post.author.username}</Link> {post.caption}</p>
           <div className="ui divider"></div>
           {
             post.comments.map((comment, index) => {
