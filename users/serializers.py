@@ -50,9 +50,11 @@ class LoginSerializer(serializers.Serializer):
         user.last_login = timezone.now()
         user.save(update_fields=['last_login'])
 
+        request = self.context.get('request')
+
         return {
             'username': user.username,
-            'avatar': user.avatar,
+            'avatar': request.build_absolute_uri(user.avatar.url),
             'token': user.token,
         }
 
@@ -71,7 +73,7 @@ class SignupSerializer(serializers.ModelSerializer):
     )
 
     token = serializers.CharField(max_length=255, read_only=True)
-    avatar = serializers.ImageField(use_url=True, read_only=True)
+    avatar = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -82,6 +84,12 @@ class SignupSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Use the `create_user` method we wrote earlier to create a new user.
         return User.objects.create_user(**validated_data)
+
+    def get_avatar(self, obj):
+        if 'request' in self.context:
+            return self.context['request'].build_absolute_uri(obj.avatar.url)
+
+        return None
 
 
 class UserSerializer(serializers.ModelSerializer):
