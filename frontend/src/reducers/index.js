@@ -16,6 +16,16 @@ const postsReducer = (posts=[], action) => {
     });
   }
 
+  if (action.type === 'ADD_COMMENT') {
+    return posts.map(post => {
+      if (post.id === action.payload.post) {
+        post.comments.push(action.payload);
+      }
+
+      return post;
+    });
+  }
+
   return posts;
 };
 
@@ -61,11 +71,19 @@ const viewPostReducer = (currentPost=null, action) => {
     if (currentPost !== null && currentPost.id === action.payload.postId) {
       // React does a shallowEqual on state changes to determine if the component
       // should be re-rendered. By cloning the object, we create a different reference
-      let currentPostCopy = Object.assign({}, currentPost);
+      let currentPostCopy = {...currentPost};
       currentPostCopy.is_liked = !currentPostCopy.is_liked;
       currentPostCopy.likes = currentPostCopy.is_liked
                               ? currentPostCopy.likes + 1
                               : currentPostCopy.likes - 1;
+      currentPost = currentPostCopy;
+    }
+  }
+
+  if (action.type === 'ADD_COMMENT') {
+    if (currentPost !== null && currentPost.id === action.payload.post) {
+      let currentPostCopy = {...currentPost};
+      currentPostCopy.comments.push(action.payload);
       currentPost = currentPostCopy;
     }
   }

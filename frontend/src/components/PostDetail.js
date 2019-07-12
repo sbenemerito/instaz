@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import PostListItem from './PostListItem';
-import { likePost, viewPost } from '../actions';
+import { addComment, likePost, viewPost } from '../actions';
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -24,6 +24,7 @@ class PostDetail extends React.Component {
           <PostListItem
             key={post.id}
             post={post}
+            addComment={this.props.addComment}
             likePost={this.props.likePost}
             showActions={this.props.currentUser ? true : false}
             isPreview={false} />
@@ -55,5 +56,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { likePost, viewPost }
+  { addComment, likePost, viewPost }
 )(PostDetail);
