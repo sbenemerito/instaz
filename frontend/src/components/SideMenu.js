@@ -12,11 +12,11 @@ class SideMenu extends React.Component {
           </Link>
         </div>
         <div className="ui hidden divider"></div>
-        <div class="ui labeled button add-button" tabindex="0">
+        <Link class="ui labeled button add-button" tabindex="0" to="/p/new">
           <div class="ui black button">
             <i class="plus square outline icon"></i> Add Post
           </div>
-        </div>
+        </Link>
         <div className="ui vertical menu">
           <div className="item">
             <div className="ui input"><input type="text" placeholder="Search..." /></div>

@@ -7,6 +7,7 @@ import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import PostDetail from './PostDetail';
+import PostForm from './PostForm';
 import { logoutUser } from '../actions';
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
           />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/p/new" component={PostForm} />
           <Route path="/p/:id" component={PostDetail} />
         </Switch>
       </div>

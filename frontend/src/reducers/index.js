@@ -57,6 +57,8 @@ const errorsReducer = (errorMessages=[], action) => {
 
       errorMessages = tempErrors;
     }
+  } else {
+    errorMessages = [];
   }
 
   return errorMessages;
