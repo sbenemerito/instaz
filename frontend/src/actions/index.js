@@ -100,7 +100,24 @@ const addComment = ({ post, message }) => async dispatch => {
   );
 };
 
+const addPost = postData => async dispatch => {
+  await instazApi.post(`/posts/`, postData).then(
+    response => {
+      dispatch({
+        type: 'ADD_POST',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'ADD_POST_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
 export {
-  addComment, fetchPosts, likePost, loginUser,
-  registerUser, logoutUser, viewPost
+  addComment, addPost, fetchPosts, likePost,
+  loginUser, registerUser, logoutUser, viewPost
 };
