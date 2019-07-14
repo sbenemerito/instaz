@@ -12,7 +12,7 @@ class Home extends React.Component {
           <div className="ui three column stackable grid">
             <div className="two wide column computer only"></div>
             <PostList currentUser={this.props.currentUser} />
-            <SideMenu currentUser={this.props.currentUser} />
+            <SideMenu currentUser={this.props.currentUser} logoutUser={this.props.logoutUser} />
           </div>
         </div>
       </div>

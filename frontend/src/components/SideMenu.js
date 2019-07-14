@@ -11,6 +11,12 @@ class SideMenu extends React.Component {
             {user.username}
           </Link>
         </div>
+        <div className="ui hidden divider"></div>
+        <div class="ui labeled button add-button" tabindex="0">
+          <div class="ui black button">
+            <i class="plus square outline icon"></i> Add Post
+          </div>
+        </div>
         <div className="ui vertical menu">
           <div className="item">
             <div className="ui input"><input type="text" placeholder="Search..." /></div>
@@ -25,15 +31,15 @@ class SideMenu extends React.Component {
             Messages
             <div className="ui label">0</div>
           </a>
-          <Link className="item" to="/logout">
+          <a className="item" onClick={this.props.logoutUser}>
             <i className="sign-out icon"></i> Logout
-          </Link>
+          </a>
         </div>
       </div>
     );
 
     const guestMenu = (
-      <div className="ui vertical menu">
+      <div className="ui vertical menu sticky-menu">
         <div className="item">
           <div className="ui input"><input type="text" placeholder="Search..."/></div>
         </div>
