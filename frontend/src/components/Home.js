@@ -1,5 +1,7 @@
 import React from 'react';
+
 import PostList from './PostList';
+import SideMenu from './SideMenu';
 
 class Home extends React.Component {
 
@@ -7,11 +9,10 @@ class Home extends React.Component {
     return (
       <div className="Home">
         <div className="ui container center aligned">
-          <div className="ui two column stackable grid">
+          <div className="ui three column stackable grid">
+            <div className="two wide column computer only"></div>
             <PostList currentUser={this.props.currentUser} />
-            <div className="six wide column computer only">
-              <h1>Side Menu</h1>
-            </div>
+            <SideMenu currentUser={this.props.currentUser} />
           </div>
         </div>
       </div>
