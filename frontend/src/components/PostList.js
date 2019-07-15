@@ -18,6 +18,7 @@ class PostList extends React.Component {
               <PostListItem
                 key={post.id}
                 post={post}
+                currentUser={this.props.currentUser}
                 addComment={this.props.addComment}
                 likePost={this.props.likePost}
                 showActions={this.props.currentUser ? true : false}

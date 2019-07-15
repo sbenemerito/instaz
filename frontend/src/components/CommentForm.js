@@ -21,7 +21,16 @@ class CommentForm extends React.Component {
             <Form className={isSubmitting ? "ui loading form" : "ui form"}>
               <div className="ui large transparent left icon input">
                 <i className="comment outline icon"></i>
-                <input type="text" name="message" maxLength="400" placeholder="Add Comment..." onChange={handleChange} value={values.message} />
+                <input
+                  className="comment-field"
+                  id={this.props.elementId}
+                  type="text"
+                  name="message"
+                  maxLength="400"
+                  placeholder="Add Comment..."
+                  onChange={handleChange}
+                  value={values.message}
+                />
               </div>
             </Form>
           )}

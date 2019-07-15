@@ -11,6 +11,25 @@ class PostListItem extends React.Component {
         {caption + '...'} <Link className="ui sub header" to={`/p/${id}`}>View full caption</Link>
       </span>
     );
+    const postActionsElem = (user, post) => (
+      <div className="content action-icons">
+        <i
+          onClick={() => this.props.likePost(post.id)}
+          className={"clickable big heart like icon" + (post.is_liked ? " red" : "")}>
+        </i>
+        <i
+          onClick={() => { document.getElementById(`comment-field${post.id}`).focus(); }}
+          className="clickable big comment outline link icon">
+        </i>
+        <i className="clickable big share icon"></i>
+        {
+          // Show archive button for post owner
+          post.author.username === user.username
+          ? <i className="clickable right floated big archive link icon"></i>
+          : null
+        }
+      </div>
+    );
 
     return(
       <div className="ui fluid card">
@@ -26,16 +45,7 @@ class PostListItem extends React.Component {
         </div>
         {
           // Only show action icons for authenticated user
-          this.props.showActions ? (
-            <div className="content action-icons">
-              <i
-                onClick={() => this.props.likePost(post.id)}
-                className={"clickable big heart outline like icon" + (post.is_liked ? " red" : "")}>
-              </i>
-              <i className="clickable big comment outline link icon"></i>
-              <i className="clickable big share link icon"></i>
-            </div>
-          ) : null
+          this.props.showActions ? postActionsElem(this.props.currentUser, post) : null
         }
         <div className="relaxed content">
           <p className="ui sub header">{post.likes} likes</p>
@@ -45,7 +55,7 @@ class PostListItem extends React.Component {
             </Link>
             {post.caption && post.caption.length > 120 && isPreview ? captionPreviewElem(post) : post.caption}
           </p>
-          <div className="ui divider"></div>
+          { post.comments.length > 0 ? <div className="ui divider"></div> : null }
           {
             post.comments.map((comment, index) => {
               // Only show up to 3 comments for posts in list
@@ -68,7 +78,7 @@ class PostListItem extends React.Component {
         {
           // Only show comment form for authenticated user
           this.props.showActions ? (
-            <CommentForm post={post} addComment={this.props.addComment} />
+            <CommentForm post={post} addComment={this.props.addComment} elementId={`comment-field${post.id}`} />
           ) : null
         }
       </div>
