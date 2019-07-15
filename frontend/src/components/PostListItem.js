@@ -25,7 +25,13 @@ class PostListItem extends React.Component {
         {
           // Show archive button for post owner
           post.author.username === user.username
-          ? <i className="clickable right floated big archive link icon"></i>
+            ? <span
+                className="clickable right floated"
+                data-inverted=""
+                data-tooltip="Archive this post"
+                data-position="top center">
+                  <i className="big archive link icon"></i>
+              </span>
           : null
         }
       </div>
