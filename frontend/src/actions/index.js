@@ -100,8 +100,15 @@ const addComment = ({ post, message }) => async dispatch => {
   );
 };
 
-const addPost = postData => async dispatch => {
-  await instazApi.post(`/posts/`, postData).then(
+const addPost = ({ image, caption }) => async dispatch => {
+  const postData = new FormData();
+  postData.append('image', image);
+  postData.append('caption', caption);
+
+  await instazApi.post(
+    "/posts/",
+    postData,
+    { headers: { 'content-type': 'multipart/form-data' }}).then(
     response => {
       dispatch({
         type: 'ADD_POST',
