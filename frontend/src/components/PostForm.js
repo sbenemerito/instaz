@@ -77,7 +77,19 @@ class Thumb extends React.Component {
 }
 
 class PostForm extends React.Component {
+  state = {
+    createdPost: null
+  };
+
   render() {
+    if (this.props.currentUser === null) {
+      return <Redirect to="/login" />;
+    }
+
+    if (this.state.createdPost !== null) {
+      return <Redirect to={`/p/${this.state.createdPost.id}`} />;
+    }
+
     return (
       <div className="PostForm">
         <div className="ui container segment">
@@ -94,9 +106,10 @@ class PostForm extends React.Component {
               caption: '',
             }}
             validationSchema={PostFormSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting, props }) => {
               this.props.addPost(values).then(response => {
                 setSubmitting(false);
+                this.setState({ createdPost: this.props.currentPost });
               });
             }}
           >
@@ -128,9 +141,6 @@ class PostForm extends React.Component {
               </Form>
             )}
           </Formik>
-          {
-            this.props.currentUser ? null : <Redirect to="/login" />
-          }
         </div>
       </div>
     );
@@ -138,8 +148,8 @@ class PostForm extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const { errorMessages, currentUser } = state;
-  return { errorMessages, currentUser };
+  const { errorMessages, currentUser, currentPost } = state;
+  return { errorMessages, currentUser, currentPost };
 };
 
 export default connect(

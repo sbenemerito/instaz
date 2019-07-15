@@ -108,7 +108,8 @@ const addPost = ({ image, caption }) => async dispatch => {
   await instazApi.post(
     "/posts/",
     postData,
-    { headers: { 'content-type': 'multipart/form-data' }}).then(
+    { headers: { 'content-type': 'multipart/form-data' }}
+  ).then(
     response => {
       dispatch({
         type: 'ADD_POST',
