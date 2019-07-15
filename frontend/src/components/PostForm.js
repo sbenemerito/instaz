@@ -4,10 +4,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
-import { loginUser } from '../actions';
+import { addPost } from '../actions';
 import ErrorMessages from './ErrorMessages';
 
-const FILE_SIZE = 5 * 1024 * 1024;
+const FILE_SIZE = 3 * 1024 * 1024;
 const SUPPORTED_FORMATS = [
   "image/jpg",
   "image/jpeg",
@@ -20,7 +20,7 @@ const PostFormSchema = Yup.object().shape({
     .required('This field is required')
     .test(
       "fileSize",
-      "File too large (should not be bigger than 5 MB)",
+      "File too large (should not be bigger than 3 MB)",
       value => value && value.size <= FILE_SIZE
     )
     .test(
@@ -31,6 +31,49 @@ const PostFormSchema = Yup.object().shape({
   caption: Yup.string()
     .max(200, 'Caption can only be up to 200 characters.')
 });
+
+class Thumb extends React.Component {
+  state = {
+    loading: false,
+    thumb: undefined,
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.file) { return; }
+
+    this.setState({ loading: true }, () => {
+      let reader = new FileReader();
+
+      reader.onloadend = () => {
+        this.setState({ loading: false, thumb: reader.result });
+      };
+
+      reader.readAsDataURL(nextProps.file);
+    });
+  }
+
+  render() {
+    const { file } = this.props;
+    const { loading, thumb } = this.state;
+
+    if (!file) {
+      return null;
+    }
+
+    if (loading) {
+      return <p>Loading...</p>;
+    }
+
+    return (
+      <div>
+        <div className="ui tiny header">
+          Preview:
+        </div>
+        <img src={thumb} alt={file.name} className="ui centered bordered medium image"/>
+      </div>
+    );
+  }
+}
 
 class PostForm extends React.Component {
   render() {
@@ -51,27 +94,32 @@ class PostForm extends React.Component {
             }}
             validationSchema={PostFormSchema}
             onSubmit={(values, { setSubmitting }) => {
-              this.props.loginUser(values).then(response => {
+              this.props.addPost(values).then(response => {
                 setSubmitting(false);
               });
             }}
           >
-            {({ values, errors, touched, isSubmitting, handleChange }) => (
+            {({ values, errors, touched, isSubmitting, handleChange, setFieldValue }) => (
               <Form className={isSubmitting ? "ui loading form" : "ui form"}>
-                {/* TODO: HANDLE IMAGE UPLOAD */}
                 <div className="required field">
                   <label>Image</label>
                   <div className="ui left icon input">
-                    <input type="text" name="image" placeholder="Image" onChange={handleChange} value={values.image} />
-                    <i className="user icon"></i>
+                    <input
+                      type="file"
+                      name="image"
+                      placeholder="Image"
+                      onChange={(event) => { setFieldValue("image", event.currentTarget.files[0]); }}
+                    />
+                    <i className="file image icon"></i>
                   </div>
                   <ErrorMessage className="error" name="image" component="div" />
                 </div>
-                <div className="required field">
+                <Thumb file={values.image} />
+                <div className="field">
                   <label>Caption</label>
                   <div className="ui left icon input">
                     <input type="caption" name="caption" placeholder="Caption" onChange={handleChange} value={values.caption} />
-                    <i className="lock icon"></i>
+                    <i className="quote left icon"></i>
                   </div>
                   <ErrorMessage className="error" name="caption" component="div" />
                 </div>
@@ -95,5 +143,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginUser }
+  { addPost }
 )(PostForm);
