@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Formik, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
@@ -36,12 +36,13 @@ class Thumb extends React.Component {
   state = {
     loading: false,
     thumb: undefined,
+    rawFile: null,
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.file) { return; }
+    if (!nextProps.file || nextProps.file === this.state.rawFile) { return; }
 
-    this.setState({ loading: true }, () => {
+    this.setState({ loading: true, rawFile: nextProps.file }, () => {
       let reader = new FileReader();
 
       reader.onloadend = () => {

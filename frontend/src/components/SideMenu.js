@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 class SideMenu extends React.Component {
   render() {
     const loggedInMenu = user => (
-      <div class="sticky-menu">
-        <div class="user-info">
+      <div className="sticky-menu">
+        <div className="user-info">
           <Link className="ui medium header" to={`/u/${user.username}`}>
             <img className="ui avatar image" src={user.avatar} alt={`${user.username}'s avatar`} />
             {user.username}
           </Link>
         </div>
         <div className="ui hidden divider"></div>
-        <Link class="ui labeled button add-button" tabindex="0" to="/p/new">
-          <div class="ui black button">
-            <i class="plus square outline icon"></i> Add Post
+        <Link className="ui labeled button add-button" tabIndex="0" to="/p/new">
+          <div className="ui black button">
+            <i className="plus square outline icon"></i> Add Post
           </div>
         </Link>
         <div className="ui vertical menu">
