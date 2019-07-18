@@ -26,6 +26,19 @@ const postsReducer = (posts=[], action) => {
     });
   }
 
+  if (action.type === 'EDIT_POST') {
+    let temporaryPosts = [];
+    posts.forEach(post => {
+      if (post.id === action.payload.id) {
+        if (action.payload.is_active) temporaryPosts.push(action.payload);
+      } else {
+        temporaryPosts.push(post);
+      }
+    });
+
+    return temporaryPosts;
+  }
+
   return posts;
 };
 
@@ -86,6 +99,13 @@ const viewPostReducer = (currentPost=null, action) => {
   if (action.type === 'ADD_COMMENT') {
     if (currentPost !== null && currentPost.id === action.payload.post) {
       currentPostCopy.comments.push(action.payload);
+    }
+  }
+
+  if (action.type === 'EDIT_POST' && currentPost !== null) {
+    if (currentPost.id === action.payload.id) {
+      if (!action.payload.is_active) return null;
+      else return action.payload;
     }
   }
 

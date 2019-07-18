@@ -125,7 +125,35 @@ const addPost = ({ image, caption }) => async dispatch => {
   );
 };
 
+const editPost = post => async dispatch => {
+  const postData = new FormData();
+  Object.keys(post).forEach(key => {
+    if (key === 'image' && typeof post[key] === 'string') return;
+
+    postData.append(key, post[key]);
+  });
+
+  await instazApi.patch(
+    `/posts/${post.id}/`,
+    postData,
+    { headers: { 'content-type': 'multipart/form-data' }}
+  ).then(
+    response => {
+      dispatch({
+        type: 'EDIT_POST',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'EDIT_POST_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
 export {
-  addComment, addPost, fetchPosts, likePost,
+  addComment, addPost, editPost, fetchPosts, likePost,
   loginUser, registerUser, logoutUser, viewPost
 };
