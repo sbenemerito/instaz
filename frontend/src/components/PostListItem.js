@@ -5,7 +5,7 @@ import CommentForm from './CommentForm';
 
 class PostListItem extends React.Component {
   render() {
-    const { post, isPreview } = this.props;
+    const { currentUser, post, isPreview, showActions } = this.props;
     const captionPreviewElem = ({ id, caption }) => (
       <span>
         {caption + '...'} <Link className="ui sub header" to={`/p/${id}`}>View full caption</Link>
@@ -51,7 +51,7 @@ class PostListItem extends React.Component {
         </div>
         {
           // Only show action icons for authenticated user
-          this.props.showActions ? postActionsElem(this.props.currentUser, post) : null
+          showActions ? postActionsElem(currentUser, post) : null
         }
         <div className="relaxed content">
           <p className="ui sub header">{post.likes} likes</p>
@@ -83,7 +83,7 @@ class PostListItem extends React.Component {
         </div>
         {
           // Only show comment form for authenticated user
-          this.props.showActions ? (
+          showActions ? (
             <CommentForm post={post} addComment={this.props.addComment} elementId={`comment-field${post.id}`} />
           ) : null
         }
