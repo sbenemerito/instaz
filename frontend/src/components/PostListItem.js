@@ -1,14 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 import CommentForm from './CommentForm';
 
 class PostListItem extends React.Component {
   state = {
-    isArchiving: false
+    isArchiving: false,
+    redirectToHome: false
   };
 
   render() {
+    if (this.state.redirectToHome) {
+      return <Redirect to="/" />;
+    }
+
     const { currentUser, post, isPreview, showActions } = this.props;
     const captionPreviewElem = ({ id, caption }) => (
       <span>
@@ -37,7 +42,7 @@ class PostListItem extends React.Component {
                 onClick={() => {
                   this.setState({ isArchiving: true });
                   this.props.editPost({ ...post, is_active: false }).then(() => {
-                    this.setState({ isArchiving: false });
+                    this.setState({ isArchiving: false, redirectToHome: !isPreview });
                   });
                 }}>
                   <i className={

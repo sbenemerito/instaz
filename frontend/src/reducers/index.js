@@ -102,13 +102,6 @@ const viewPostReducer = (currentPost=null, action) => {
     }
   }
 
-  if (action.type === 'EDIT_POST' && currentPost !== null) {
-    if (currentPost.id === action.payload.id) {
-      if (!action.payload.is_active) return null;
-      else return action.payload;
-    }
-  }
-
   if (action.type === 'ADD_POST') {
     currentPostCopy = action.payload;
   }
