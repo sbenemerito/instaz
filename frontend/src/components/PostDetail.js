@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import PostListItem from './PostListItem';
 import SideMenu from './SideMenu';
-import { addComment, likePost, logoutUser, viewPost } from '../actions';
+import { addComment, editPost, likePost, logoutUser, viewPost } from '../actions';
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -28,6 +28,7 @@ class PostDetail extends React.Component {
             post={post}
             currentUser={this.props.currentUser}
             addComment={this.props.addComment}
+            editPost={this.props.editPost}
             likePost={this.props.likePost}
             showActions={this.props.currentUser ? true : false}
             isPreview={false} />
@@ -57,5 +58,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addComment, likePost, logoutUser, viewPost }
+  { addComment, editPost, likePost, logoutUser, viewPost }
 )(PostDetail);

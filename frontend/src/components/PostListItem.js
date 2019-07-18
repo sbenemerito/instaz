@@ -4,6 +4,10 @@ import { Link } from 'react-router-dom';
 import CommentForm from './CommentForm';
 
 class PostListItem extends React.Component {
+  state = {
+    isArchiving: false
+  };
+
   render() {
     const { currentUser, post, isPreview, showActions } = this.props;
     const captionPreviewElem = ({ id, caption }) => (
@@ -28,9 +32,19 @@ class PostListItem extends React.Component {
             ? <span
                 className="clickable right floated"
                 data-inverted=""
-                data-tooltip="Archive this post"
-                data-position="top center">
-                  <i className="big archive link icon"></i>
+                data-tooltip={ this.state.isArchiving ? "Archiving..." : "Archive this post" }
+                data-position="top center"
+                onClick={() => {
+                  this.setState({ isArchiving: true });
+                  this.props.editPost({ ...post, is_active: false }).then(() => {
+                    this.setState({ isArchiving: false });
+                  });
+                }}>
+                  <i className={
+                    (this.state.isArchiving
+                     ? "ui loading circle notch"
+                     : "archive icon") + " big link icon"
+                  }></i>
               </span>
           : null
         }
