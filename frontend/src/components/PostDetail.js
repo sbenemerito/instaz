@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import PostListItem from './PostListItem';
-import { addComment, likePost, viewPost } from '../actions';
+import SideMenu from './SideMenu';
+import { addComment, likePost, logoutUser, viewPost } from '../actions';
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -19,7 +20,8 @@ class PostDetail extends React.Component {
     );
 
     const postDOM = post => (
-      <div className="ui two column stackable grid">
+      <div className="ui three column stackable grid">
+        <div className="two wide column computer only"></div>
         <div className="left aligned nine wide computer sixteen wide mobile column">
           <PostListItem
             key={post.id}
@@ -30,14 +32,12 @@ class PostDetail extends React.Component {
             showActions={this.props.currentUser ? true : false}
             isPreview={false} />
         </div>
-        <div className="six wide column computer only">
-          <h1>Side Menu</h1>
-        </div>
+        <SideMenu currentUser={this.props.currentUser} logoutUser={this.props.logoutUser} />
       </div>
     );
 
     return (
-      <div className="Home">
+      <div className="PostDetail">
         <div className="ui container center aligned">
           {
             this.props.currentPost
@@ -57,5 +57,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { addComment, likePost, viewPost }
+  { addComment, likePost, logoutUser, viewPost }
 )(PostDetail);
