@@ -100,7 +100,60 @@ const addComment = ({ post, message }) => async dispatch => {
   );
 };
 
+const addPost = ({ image, caption }) => async dispatch => {
+  const postData = new FormData();
+  postData.append('image', image);
+  postData.append('caption', caption);
+
+  await instazApi.post(
+    "/posts/",
+    postData,
+    { headers: { 'content-type': 'multipart/form-data' }}
+  ).then(
+    response => {
+      dispatch({
+        type: 'ADD_POST',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'ADD_POST_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
+const editPost = post => async dispatch => {
+  const postData = new FormData();
+  Object.keys(post).forEach(key => {
+    if (key === 'image' && typeof post[key] === 'string') return;
+
+    postData.append(key, post[key]);
+  });
+
+  await instazApi.patch(
+    `/posts/${post.id}/`,
+    postData,
+    { headers: { 'content-type': 'multipart/form-data' }}
+  ).then(
+    response => {
+      dispatch({
+        type: 'EDIT_POST',
+        payload: response.data
+      });
+    },
+    error => {
+      dispatch({
+        type: 'EDIT_POST_FAILURE',
+        payload: error.response ? error.response.data : error.message
+      });
+    }
+  );
+};
+
 export {
-  addComment, fetchPosts, likePost, loginUser,
-  registerUser, logoutUser, viewPost
+  addComment, addPost, editPost, fetchPosts, likePost,
+  loginUser, registerUser, logoutUser, viewPost
 };

@@ -26,6 +26,19 @@ const postsReducer = (posts=[], action) => {
     });
   }
 
+  if (action.type === 'EDIT_POST') {
+    let temporaryPosts = [];
+    posts.forEach(post => {
+      if (post.id === action.payload.id) {
+        if (action.payload.is_active) temporaryPosts.push(action.payload);
+      } else {
+        temporaryPosts.push(post);
+      }
+    });
+
+    return temporaryPosts;
+  }
+
   return posts;
 };
 
@@ -57,37 +70,43 @@ const errorsReducer = (errorMessages=[], action) => {
 
       errorMessages = tempErrors;
     }
+  } else {
+    errorMessages = [];
   }
 
   return errorMessages;
 };
 
 const viewPostReducer = (currentPost=null, action) => {
+  // React does a shallowEqual on state changes to determine if the component
+  // should be re-rendered. By cloning the object, we create a different reference.
+  // This variable will be used for times that the currentPost will be manipulated.
+  let currentPostCopy = currentPost === null ? null : { ...currentPost };
+
   if (action.type === 'VIEW_POST') {
     return action.payload;
   }
 
   if (action.type === 'TOGGLE_POST_LIKE') {
     if (currentPost !== null && currentPost.id === action.payload.postId) {
-      // React does a shallowEqual on state changes to determine if the component
-      // should be re-rendered. By cloning the object, we create a different reference
-      let currentPostCopy = {...currentPost};
       currentPostCopy.is_liked = !currentPostCopy.is_liked;
       currentPostCopy.likes = currentPostCopy.is_liked
                               ? currentPostCopy.likes + 1
                               : currentPostCopy.likes - 1;
-      currentPost = currentPostCopy;
     }
   }
 
   if (action.type === 'ADD_COMMENT') {
     if (currentPost !== null && currentPost.id === action.payload.post) {
-      let currentPostCopy = {...currentPost};
       currentPostCopy.comments.push(action.payload);
-      currentPost = currentPostCopy;
     }
   }
 
+  if (action.type === 'ADD_POST') {
+    currentPostCopy = action.payload;
+  }
+
+  currentPost = currentPostCopy;
   return currentPost;
 };
 

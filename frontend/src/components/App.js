@@ -7,6 +7,7 @@ import Home from './Home';
 import Login from './Login';
 import Signup from './Signup';
 import PostDetail from './PostDetail';
+import PostForm from './PostForm';
 import { logoutUser } from '../actions';
 
 class App extends React.Component {
@@ -17,9 +18,16 @@ class App extends React.Component {
         <Header currentUser={this.props.currentUser} logoutUser={this.props.logoutUser} />
 
         <Switch>
-          <Route path="/" exact component={() => <Home currentUser={this.props.currentUser}/>} />
+          <Route
+            path="/"
+            exact
+            component={
+              () => <Home currentUser={this.props.currentUser} logoutUser={this.props.logoutUser}/>
+            }
+          />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/p/new" component={PostForm} />
           <Route path="/p/:id" component={PostDetail} />
         </Switch>
       </div>

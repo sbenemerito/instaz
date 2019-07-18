@@ -30,3 +30,22 @@ body {
 .author {
   margin-bottom: 0 !important;
 }
+
+.sticky-menu {
+  position: sticky;
+  top: 25px;
+}
+
+.user-info {
+  text-align: left;
+}
+
+.add-button {
+  width: 15rem;
+  margin: 20px 0;
+  display: block !important;
+}
+
+.add-button > div {
+  width: 15rem;
+}
