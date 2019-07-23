@@ -3,6 +3,10 @@ An Instagram clone written in Django and React
 
 # Installation
 
+#### Set environment variables
+
+Rename the `.env.example` file to `.env` and update its contents according to your needs.
+
 #### Install requirements
 
 ```bash
