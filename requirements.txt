@@ -1,6 +1,6 @@
 Django==2.2.3
 django-cors-headers==3.0.2
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 Faker==1.0.7
 Pillow==6.0.0
 PyJWT==1.7.1
