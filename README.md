@@ -1,26 +1,67 @@
 # instaz
+
 An Instagram clone written in Django and React
 
-# Installation
+# Setup
 
-#### Set environment variables
+## Backend (Python / Django)
 
-Rename the `.env.example` file to `.env` and update its contents according to your needs.
+### 1) Set environment variables
 
-#### Install requirements
+Rename/copy the `.env.example` file to `.env` and update its contents according to your needs.
+
+### 2) Install requirements
 
 ```bash
-$ pip install -r requirements.text
+pip install -r requirements.text
 ```
 
-#### Run migrations
+#### 2A) Known Issues
+
+1) > error: invalid command 'bdist_wheel'
+
+`wheel` is missing. Solve by running: `pip install wheel`
+
+2) > The headers or library files could not be found for jpeg,                             
+a required dependency when compiling Pillow from source.
+
+System-related stuff. For Debian, solve by:
 
 ```bash
-$ python manage.py migrate
+sudo apt install libjpeg-dev zlib1g-dev
+pip install Pillow
 ```
 
-#### Run development server
+### 3) Run migrations
 
 ```bash
-$ python manage.py runserver
+python manage.py migrate
+```
+
+### 4) Run development server
+
+```bash
+python manage.py runserver
+```
+
+## Frontend (React)
+
+### 1) Set environment variables
+
+Rename/copy the `frontend/.env.example` file to `frontend/.env` and update its contents according to your needs.
+
+### 2) Install dependencies
+
+```bash
+npm install
+```
+
+You should have no problems with this using the latest LTS versions of both Node and npm.
+
+(Last tested with Node v16.15.0 and npm 8.5.5)
+
+### 3) Run development server
+
+```bash
+npm start
 ```
